@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: thesis
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 30s          # Matches thesis methodology (every 30s)
+      evaluation_interval: 30s
+
+    scrape_configs:
+      # Scrape Spring Boot Actuator/Micrometer metrics (JVM + app metrics)
+      - job_name: 'spring-boot-app'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names: [thesis]
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: "true"
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            target_label: __address__
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+
+      # Scrape Kubernetes node/pod infrastructure metrics (CPU, memory)
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names: [thesis]
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_phase]
+            regex: Pending|Succeeded|Failed
+            action: drop
+
+      # Scrape kube-state-metrics for replica counts and scaling events
+      - job_name: 'kube-state-metrics'
+        static_configs:
+          - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']

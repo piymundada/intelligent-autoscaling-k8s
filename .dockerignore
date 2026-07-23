@@ -1,0 +1,15 @@
+# Minimise the predictive-autoscaler build context (ml/Dockerfile builds from the
+# repo root). Exclude everything, then re-include only what the image needs:
+# the ml/ package (code + models/*.pt) and the trained scaler.
+# NOTE: the app image builds from its own spring-workload-simulator/ context, so
+# this file does not affect it.
+*
+!ml
+!data
+data/**
+!data/processed
+data/processed/**
+!data/processed/scaler.json
+!data/processed_eks
+data/processed_eks/**
+!data/processed_eks/scaler.json

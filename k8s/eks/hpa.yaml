@@ -1,0 +1,50 @@
+# Baseline: standard Kubernetes HPA (CPU + memory thresholds)
+# This is the REACTIVE baseline the predictive autoscaler is compared against.
+# Configuration is kept fixed across all baseline experiments.
+#
+# CPU + memory matches real-world practice and the proposal (§8.6.1). Note that
+# the JVM holds its committed heap (-Xms256m), so memory utilisation stays high
+# and does not fall back when load drops. This causes the HPA to scale up on
+# memory and resist scaling in — pinning replicas and inflating cost. That
+# behaviour is NOT a misconfiguration to avoid here: it is a documented FINDING
+# that demonstrates why infrastructure-level metrics poorly capture JVM workloads
+# (the core thesis motivation). The predictive autoscaler replaces the HPA and
+# scales on workload (RPS) + GC pressure instead, which is what lets it scale in.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spring-boot-hpa
+  namespace: thesis
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-boot-app
+  minReplicas: 1
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60

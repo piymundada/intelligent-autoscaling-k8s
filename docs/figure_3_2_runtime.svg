@@ -1,0 +1,70 @@
+<svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t33 d33">
+<title id="t33">Figure 3.2 predictive autoscaler runtime architecture</title>
+<desc id="d33">Requests flow from the internet through ingress and service to the pod; Prometheus scrapes workload and JVM metrics and feeds the predictive autoscaler, whose LSTM forecast and JVM-pressure floor produce a replica calculation that is enacted through the Kubernetes control plane.</desc>
+<defs>
+<marker id="arg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+<path d="M0 0 L7 3 L0 6 Z" fill="#7a7a74"/>
+</marker>
+<marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+<path d="M0 0 L7 3 L0 6 Z" fill="#C0392B"/>
+</marker>
+</defs>
+<rect x="0" y="0" width="880" height="470" fill="#ffffff"/>
+
+<line x1="548" y1="40" x2="570" y2="40" stroke="#C0392B" stroke-width="2.5"/>
+<text x="575" y="44" font-size="12" fill="#5F5E5A">request path</text>
+<line x1="682" y1="40" x2="704" y2="40" stroke="#7a7a74" stroke-width="2.5"/>
+<text x="709" y="44" font-size="12" fill="#5F5E5A">control &amp; metrics</text>
+
+<rect x="140" y="54" width="725" height="400" rx="10" fill="none" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="152" y="74" font-size="13" font-weight="500" fill="#5F5E5A">Kubernetes cluster</text>
+
+<rect x="170" y="108" width="120" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+<text x="230" y="135" text-anchor="middle" font-size="13" fill="#1f1f1f">kube scheduler</text>
+<rect x="320" y="108" width="130" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+<text x="385" y="135" text-anchor="middle" font-size="13" fill="#1f1f1f">kube api-server</text>
+
+<rect x="486" y="80" width="376" height="86" rx="8" fill="none" stroke="#BA7517" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="674" y="98" text-anchor="middle" font-size="13" font-weight="500" fill="#854F0B">Predictive autoscaler</text>
+<rect x="494" y="110" width="106" height="42" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.5"/>
+<text x="547" y="127" text-anchor="middle" font-size="12.5" fill="#1f1f1f">Replica</text>
+<text x="547" y="143" text-anchor="middle" font-size="12.5" fill="#1f1f1f">calculation</text>
+<rect x="610" y="110" width="112" height="42" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5"/>
+<text x="666" y="127" text-anchor="middle" font-size="12.5" fill="#1f1f1f">JVM-pressure</text>
+<text x="666" y="143" text-anchor="middle" font-size="12.5" fill="#1f1f1f">floor</text>
+<rect x="732" y="110" width="122" height="42" rx="6" fill="#EAF3DE" stroke="#639922" stroke-width="1.5"/>
+<text x="793" y="127" text-anchor="middle" font-size="12.5" fill="#1f1f1f">LSTM</text>
+<text x="793" y="143" text-anchor="middle" font-size="12.5" fill="#1f1f1f">forecast</text>
+
+<rect x="470" y="250" width="90" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+<text x="515" y="277" text-anchor="middle" font-size="13" fill="#1f1f1f">ReplicaSet</text>
+
+<rect x="24" y="372" width="96" height="46" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+<text x="72" y="400" text-anchor="middle" font-size="13" fill="#1f1f1f">Internet</text>
+<rect x="170" y="372" width="96" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<text x="218" y="400" text-anchor="middle" font-size="13" fill="#1f1f1f">Ingress</text>
+<rect x="300" y="372" width="96" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<text x="348" y="400" text-anchor="middle" font-size="13" fill="#1f1f1f">Service</text>
+<rect x="470" y="372" width="92" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<text x="516" y="400" text-anchor="middle" font-size="13" fill="#1f1f1f">Pod</text>
+<rect x="640" y="372" width="150" height="46" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<text x="715" y="392" text-anchor="middle" font-size="13" font-weight="500" fill="#1f1f1f">Prometheus</text>
+<text x="715" y="408" text-anchor="middle" font-size="11.5" fill="#5F5E5A">metrics collector</text>
+
+<line x1="732" y1="131" x2="726" y2="131" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<line x1="610" y1="131" x2="604" y2="131" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<path d="M490 131 H452" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<path d="M320 130 H294" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<path d="M230 152 V272 H468" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<path d="M515 294 V370" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+
+<path d="M120 395 H168" fill="none" stroke="#C0392B" stroke-width="2.5" marker-end="url(#arr)"/>
+<path d="M266 395 H298" fill="none" stroke="#C0392B" stroke-width="2.5" marker-end="url(#arr)"/>
+<path d="M396 395 H468" fill="none" stroke="#C0392B" stroke-width="2.5" marker-end="url(#arr)"/>
+
+<path d="M640 395 H564" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<text x="602" y="388" text-anchor="middle" font-size="11" fill="#5F5E5A">scrape</text>
+<path d="M715 372 V188 H793 V154" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<path d="M715 188 H666 V154" fill="none" stroke="#7a7a74" stroke-width="2" marker-end="url(#arg)"/>
+<text x="725" y="300" font-size="11.5" fill="#5F5E5A">workload + JVM metrics</text>
+</svg>

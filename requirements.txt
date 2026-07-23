@@ -1,0 +1,13 @@
+# ── ML pipeline (Python 3.11) ──────────────────────────────────────────────
+torch>=2.2.0            # thesis used 2.2.2 (CPU)
+numpy>=1.26,<2          # <2: NumPy 2.x is ABI-incompatible with torch 2.2.x (thesis pins NumPy <2)
+pandas>=2.2.0
+scikit-learn>=1.4.0
+requests>=2.31.0
+matplotlib>=3.8.0
+
+# ── Load testing ──────────────────────────────────────────────────────────────
+locust>=2.24.0
+
+# Install with:
+#   pip3.11 install -r requirements.txt

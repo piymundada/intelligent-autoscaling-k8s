@@ -1,0 +1,62 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+*.egg
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Java / Maven ──────────────────────────────────────────────────────────────
+spring-workload-simulator/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ── Data files — raw CSVs and processed numpy arrays ─────────────────────────
+# Keep merged CSVs (small, reproducible results) but exclude large raw files
+data/*.npy
+data/processed/
+# Locust report HTML (large, regeneratable)
+data/*.html
+
+# ── ML model artefacts ────────────────────────────────────────────────────────
+ml/models/*.pt
+ml/models/*.npy
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+/tmp/
+
+# ── OS / editor ──────────────────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+.idea/
+**/.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# ── Secrets / environment ─────────────────────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+
+# ── Research PDF (large binary — keep out of git) ────────────────────────────
+*.pdf
+
+.github

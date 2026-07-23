@@ -1,0 +1,14 @@
+{
+  "hpa": {
+    "tail_minutes": 29.0,
+    "tail_avg_replicas": 4.0,
+    "tail_final_replicas": 4,
+    "tail_replica_hours": 1.933
+  },
+  "pred": {
+    "tail_minutes": 26.0,
+    "tail_avg_replicas": 2.08,
+    "tail_final_replicas": 2,
+    "tail_replica_hours": 0.9
+  }
+}

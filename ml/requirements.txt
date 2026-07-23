@@ -1,0 +1,10 @@
+# ML pipeline dependencies — install from project root instead:
+#   pip3.11 install -r ../requirements.txt
+#
+# Or install just the ML subset:
+torch>=2.2.0
+numpy>=1.26.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
+requests>=2.31.0
+matplotlib>=3.8.0

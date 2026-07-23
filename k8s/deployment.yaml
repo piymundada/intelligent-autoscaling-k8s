@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-app
+  namespace: thesis
+  labels:
+    app: spring-boot-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-app
+  template:
+    metadata:
+      labels:
+        app: spring-boot-app
+      annotations:
+        # Prometheus will scrape this pod on port 8080 at /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: spring-boot-app
+          image: spring-workload-simulator:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              # 150m/300m sizes the pod so realistic load saturates it (~16 RPS/pod
+              # within SLA) -> the HPA actually scales under load instead of sitting
+              # idle. Memory request 768Mi keeps idle util (~246Mi/768 ≈ 32%) under
+              # the HPA's 70% memory target so committed JVM heap doesn't pin the HPA
+              # at max replicas (de-pin fix, independent of the CPU size).
+              cpu: "150m"
+              memory: "768Mi"
+            limits:
+              cpu: "300m"
+              # 1.25Gi headroom over -Xmx512m + non-heap (metaspace/threads/stacks)
+              # so heavy heap allocations can't trigger an OOMKill mid-run.
+              memory: "1280Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            # Tolerant: a busy-but-alive pod shouldn't be dropped from the Service
+            # (dropping the only pod under load caused a traffic death-spiral).
+            # ~80s grace before removal; scaling pre-empts real overload.
+            timeoutSeconds: 8
+            failureThreshold: 8
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            # Tolerant: liveness should catch a HUNG app, not a busy one. Under
+            # heavy load the app is slow but alive; readiness handles load-balancing.
+            # ~200s of grace (20s × 10) before the kubelet restarts the container.
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 10
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms256m -Xmx512m -XX:+UseG1GC"

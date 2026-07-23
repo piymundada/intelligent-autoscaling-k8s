@@ -1,0 +1,32 @@
+{
+  "n_test_samples": 54,
+  "target": "request_rate_rps",
+  "horizon_steps": 2,
+  "horizon_seconds": 60,
+  "models": {
+    "lstm": {
+      "mae_normalised": 0.0915147140622139,
+      "rmse_normalised": 0.11264725774526596,
+      "mae_rps": 29.395872116088867,
+      "rmse_rps": 36.1839599609375
+    },
+    "persistence": {
+      "mae_normalised": 0.06921475380659103,
+      "rmse_normalised": 0.10910087823867798,
+      "mae_rps": 22.232799530029297,
+      "rmse_rps": 35.0448112487793,
+      "lstm_rmse_improvement_pct": -3.25054885892097
+    },
+    "moving_average": {
+      "mae_normalised": 0.1473928689956665,
+      "rmse_normalised": 0.18824276328086853,
+      "mae_rps": 47.34476089477539,
+      "rmse_rps": 60.46635055541992,
+      "lstm_rmse_improvement_pct": 40.15851853375308
+    }
+  },
+  "test_rps_range": [
+    1.3433332443237305,
+    144.57333374023438
+  ]
+}

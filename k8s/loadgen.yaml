@@ -1,0 +1,55 @@
+# In-cluster load generator (Locust).
+#
+# Load MUST originate inside the cluster: on the Docker-driver Minikube, host-side
+# access (kubectl port-forward / minikube service) funnels every request to a
+# SINGLE backing pod, so HPA/predictive scale-out provides no benefit. Hitting the
+# ClusterIP service from inside the cluster lets kube-proxy load-balance across all
+# pod endpoints (verified: 4 pods share load evenly).
+#
+# Idle by default (sleep infinity); run a scenario with:
+#   kubectl -n thesis exec deploy/loadgen -- \
+#     locust -f /mnt/locust/locustfile_bursty.py --host http://spring-boot-app \
+#            --headless --run-time 30m --csv /tmp/hpa_bursty_run1 --csv-full-history
+# then copy results out:
+#   kubectl -n thesis cp <loadgen-pod>:/tmp/hpa_bursty_run1_stats_history.csv \
+#           data/hpa_bursty_run1_stats_history.csv
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgen
+  namespace: thesis
+  labels:
+    app: loadgen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadgen
+  template:
+    metadata:
+      labels:
+        app: loadgen
+      annotations:
+        # Don't let Auto Mode consolidation evict the load generator mid-run
+        # (an eviction kills the active locust process -> the load dies).
+        karpenter.sh/do-not-disrupt: "true"
+    spec:
+      containers:
+        - name: locust
+          image: locustio/locust:2.32.4
+          command: ["sleep", "infinity"]
+          volumeMounts:
+            - name: scripts
+              mountPath: /mnt/locust
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "256Mi"
+            limits:
+              # enough client CPU to drive 60 concurrent users at heavy request rates
+              cpu: "1500m"
+              memory: "512Mi"
+      volumes:
+        - name: scripts
+          configMap:
+            name: locust-scripts

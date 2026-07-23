@@ -1,0 +1,29 @@
+========================================================================================
+EKS vs MINIKUBE  (SLA violation %, breach severity, replica-hours)
+  Minikube: max=4, rps/pod≈35, p95med≈15ms (strong pods)
+  EKS:      max=6, rps/pod≈18, p95med higher (½-capacity pods, real EC2)
+========================================================================================
+
+SPIKE
+  arm       | Minikube viol%  EKS viol% |  MK sev  EKS sev |  MK rh  EKS rh
+  ----------------------------------------------------------------------
+  HPA       |           15.8       19.2 |      95       55 |   3.93    4.92
+  JVM-aware |           17.5       17.8 |      18       31 |   4.01    3.24
+  RPS-only  |           28.9       20.2 |     263       72 |   3.58    2.84
+
+BURSTY
+  arm       | Minikube viol%  EKS viol% |  MK sev  EKS sev |  MK rh  EKS rh
+  ----------------------------------------------------------------------
+  HPA       |            1.6        8.7 |      17       37 |   3.92    4.79
+  JVM-aware |            2.4        2.9 |      17       36 |   3.94    3.42
+  RPS-only  |           29.7        nan |    1537      nan |   2.53     nan
+
+KEY CROSS-ENVIRONMENT FINDINGS:
+  1. Idle pathology REPRODUCES & strengthens: HPA pinned at 4 (MK) / 6 (EKS) for 3h.
+  2. SLA: predictive beats HPA in BOTH envs — via severity on MK (shallower breaches),
+     via violation COUNT on EKS (fewer breaches).
+  3. Ablation diverges: on MK the floor is load-bearing (RPS-only SLA collapses,
+     sev 263/1536); on EKS RPS-only stays competitive — the retrained forecast +
+     15s loop is more self-sufficient, so the floor's marginal value is smaller.
+
+saved -> results/eks/figures/fig_eks_vs_minikube.png

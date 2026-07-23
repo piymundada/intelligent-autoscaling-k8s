@@ -1,0 +1,46 @@
+# EKS Auto Mode NodePool for the autoscaling experiment.
+#
+# Purpose: make pod-level scaling translate into NODE-level scaling (real $).
+#  - Non-burstable instance families (c/m) only -> no t3 CPU-credit throttling
+#    that would corrupt a performance/load test.
+#  - Small 2-vCPU nodes so a few app pods span MULTIPLE nodes at peak; scaling
+#    pods down then lets Auto Mode delete whole nodes (= measurable cost drop).
+#  - Fast consolidation (consolidateAfter: 30s) so the scale-down cost gap appears
+#    within the cooldown window rather than lagging by many minutes.
+#
+# Apply AFTER the cluster exists:  kubectl apply -f k8s/eks/nodepool.yaml
+# (Auto Mode already ships built-in "general-purpose" + "system" NodePools; this
+#  custom one targets the experiment workload via the role=experiment label.)
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: experiment
+spec:
+  template:
+    metadata:
+      labels:
+        role: experiment
+    spec:
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m"]          # non-burstable only (no t3)
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["2"]               # small nodes -> pods spread across nodes
+        - key: "eks.amazonaws.com/instance-generation"
+          operator: Gt
+          values: ["4"]               # modern gens (c5/m5+)
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default                 # built-in Auto Mode NodeClass
+      terminationGracePeriod: 24h0m0s
+  limits:
+    cpu: "16"                          # cap total cluster vCPU (budget guard)
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 30s              # remove under-used nodes quickly

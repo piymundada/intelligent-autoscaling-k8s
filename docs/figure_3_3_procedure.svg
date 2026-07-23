@@ -1,0 +1,90 @@
+<svg viewBox="0 0 700 810" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t32 d32">
+<title id="t32">Figure 3.3 experimental procedure</title>
+<desc id="d32">Ten-step experimental procedure grouped into setup, execution and iteration phases, with a repeat loop from step ten back to step two.</desc>
+<defs>
+<marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+<path d="M0 0 L7 3 L0 6 Z" fill="#7a7a74"/>
+</marker>
+</defs>
+<rect x="0" y="0" width="700" height="810" fill="#ffffff"/>
+
+<rect x="200" y="58" width="14" height="14" rx="3" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<text x="220" y="69" font-size="12" fill="#5F5E5A">setup</text>
+<rect x="300" y="58" width="14" height="14" rx="3" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<text x="320" y="69" font-size="12" fill="#5F5E5A">execution</text>
+<rect x="410" y="58" width="14" height="14" rx="3" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<text x="430" y="69" font-size="12" fill="#5F5E5A">iteration</text>
+
+<rect x="200" y="100" width="360" height="54" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<circle cx="172" cy="127" r="16" fill="#185FA5"/>
+<text x="172" y="132" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">1</text>
+<text x="220" y="124" font-size="14.5" font-weight="500" fill="#1f1f1f">Capacity calibration</text>
+<text x="220" y="143" font-size="12.5" fill="#5F5E5A">find RPS per replica (per environment)</text>
+
+<rect x="200" y="170" width="360" height="54" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<circle cx="172" cy="197" r="16" fill="#185FA5"/>
+<text x="172" y="202" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">2</text>
+<text x="220" y="194" font-size="14.5" font-weight="500" fill="#1f1f1f">Baseline reset</text>
+<text x="220" y="213" font-size="12.5" fill="#5F5E5A">redeploy to a clean state</text>
+
+<rect x="200" y="240" width="360" height="54" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<circle cx="172" cy="267" r="16" fill="#185FA5"/>
+<text x="172" y="272" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">3</text>
+<text x="220" y="264" font-size="14.5" font-weight="500" fill="#1f1f1f">Strategy configuration</text>
+<text x="220" y="283" font-size="12.5" fill="#5F5E5A">HPA, predictive, or ablation</text>
+
+<rect x="200" y="310" width="360" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<circle cx="172" cy="337" r="16" fill="#0F6E56"/>
+<text x="172" y="342" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">4</text>
+<text x="220" y="334" font-size="14.5" font-weight="500" fill="#1f1f1f">Metric collection start</text>
+<text x="220" y="353" font-size="12.5" fill="#5F5E5A">Prometheus, 30 s, before load</text>
+
+<rect x="200" y="380" width="360" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<circle cx="172" cy="407" r="16" fill="#0F6E56"/>
+<text x="172" y="412" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">5</text>
+<text x="220" y="404" font-size="14.5" font-weight="500" fill="#1f1f1f">Workload execution</text>
+<text x="220" y="423" font-size="12.5" fill="#5F5E5A">Locust scenario, in-cluster</text>
+
+<rect x="200" y="450" width="360" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<circle cx="172" cy="477" r="16" fill="#0F6E56"/>
+<text x="172" y="482" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">6</text>
+<text x="220" y="474" font-size="14.5" font-weight="500" fill="#1f1f1f">Warm-up exclusion</text>
+<text x="220" y="493" font-size="12.5" fill="#5F5E5A">drop JIT startup transient</text>
+
+<rect x="200" y="520" width="360" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<circle cx="172" cy="547" r="16" fill="#0F6E56"/>
+<text x="172" y="552" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">7</text>
+<text x="220" y="544" font-size="14.5" font-weight="500" fill="#1f1f1f">Continuous recording</text>
+<text x="220" y="563" font-size="12.5" fill="#5F5E5A">three layers, full run</text>
+
+<rect x="200" y="590" width="360" height="54" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+<circle cx="172" cy="617" r="16" fill="#0F6E56"/>
+<text x="172" y="622" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">8</text>
+<text x="220" y="614" font-size="14.5" font-weight="500" fill="#1f1f1f">Observation window</text>
+<text x="220" y="633" font-size="12.5" fill="#5F5E5A">scale-in; 3 h idle observation</text>
+
+<rect x="200" y="660" width="360" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<circle cx="172" cy="687" r="16" fill="#854F0B"/>
+<text x="172" y="692" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">9</text>
+<text x="220" y="684" font-size="14.5" font-weight="500" fill="#1f1f1f">Teardown</text>
+<text x="220" y="703" font-size="12.5" fill="#5F5E5A">clear, prevent carry-over</text>
+
+<rect x="200" y="730" width="360" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<circle cx="172" cy="757" r="16" fill="#854F0B"/>
+<text x="172" y="762" text-anchor="middle" font-size="15" font-weight="500" fill="#ffffff">10</text>
+<text x="220" y="754" font-size="14.5" font-weight="500" fill="#1f1f1f">Repetition and aggregation</text>
+<text x="220" y="773" font-size="12.5" fill="#5F5E5A">scenarios x arms x n = 2</text>
+
+<line x1="380" y1="154" x2="380" y2="168" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="224" x2="380" y2="238" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="294" x2="380" y2="308" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="364" x2="380" y2="378" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="434" x2="380" y2="448" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="504" x2="380" y2="518" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="574" x2="380" y2="588" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="644" x2="380" y2="658" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="380" y1="714" x2="380" y2="728" stroke="#7a7a74" stroke-width="2" marker-end="url(#ar)"/>
+
+<path d="M560 757 H620 V197 H562" fill="none" stroke="#7a7a74" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+<text x="638" y="477" text-anchor="middle" font-size="12" fill="#5F5E5A" transform="rotate(-90 638 477)">repeat steps 2 to 9 per run</text>
+</svg>

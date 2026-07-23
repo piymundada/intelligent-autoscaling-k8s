@@ -1,0 +1,114 @@
+# In-cluster JVM-aware predictive autoscaler (the AWS-native form of the host-side
+# loop run by scripts/run_local.sh on Minikube).
+#
+# Deploys a single controller pod that:
+#   - reads metrics from the in-cluster Prometheus Service (http://prometheus:9090)
+#   - runs the LSTM forecast + JVM-pressure floor every control interval
+#   - scales the spring-boot-app Deployment via the Kubernetes API (kubectl scale)
+#
+# The image is set by scripts/aws/deploy.sh (kubectl set image); the placeholder
+# below is overwritten at apply time.
+#
+# NOTE: this is an ALTERNATIVE to k8s/hpa.yaml — run ONE autoscaler at a time, or
+# the two will fight over the replica count. deploy.sh enforces this.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: predictive-autoscaler
+  namespace: thesis
+---
+# Namespaced Role: just enough to read and scale the app Deployment.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: predictive-autoscaler
+  namespace: thesis
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    verbs: ["get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: predictive-autoscaler
+  namespace: thesis
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: predictive-autoscaler
+subjects:
+  - kind: ServiceAccount
+    name: predictive-autoscaler
+    namespace: thesis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predictive-autoscaler
+  namespace: thesis
+  labels:
+    app: predictive-autoscaler
+spec:
+  replicas: 1
+  # Only one controller may scale the app at a time.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: predictive-autoscaler
+  template:
+    metadata:
+      labels:
+        app: predictive-autoscaler
+      annotations:
+        # Don't let consolidation evict the controller mid-run (would pause scaling).
+        karpenter.sh/do-not-disrupt: "true"
+    spec:
+      serviceAccountName: predictive-autoscaler
+      containers:
+        - name: autoscaler
+          image: predictive-autoscaler:latest   # overwritten by deploy.sh
+          imagePullPolicy: Always
+          args:
+            - "--prometheus-url=http://prometheus:9090"
+            - "--model=/app/ml/models/lstm_forecaster.pt"
+            - "--scaler=/app/artifacts/scaler.json"
+            - "--namespace=thesis"
+            - "--deployment=spring-boot-app"
+            # NOTE: rps-per-replica is NOT a flag here — it comes from the
+            # RPS_PER_REPLICA env var below (EKS-calibrated, separate from the
+            # local config.py value). deploy.sh can override it from env.sh.
+            - "--min-replicas=1"
+            - "--max-replicas=6"
+            - "--control-interval=15"
+            - "--scale-down-delay-cycles=16"
+            - "--log-file=/tmp/predictive_autoscaler.csv"
+            # NOTE: the JVM floor is NOT a flag here — it's controlled by the
+            # JVM_FLOOR env var below (on by default). For the RPS-only ablation
+            # arm, set JVM_FLOOR=off (deploy.sh / kubectl set env), no rebuild.
+          env:
+            # EKS-calibrated sustainable RPS per pod (from the saturation ramp +
+            # calibrate_capacity.py). Independent of config.py's local value.
+            # deploy.sh overrides this from scripts/aws/env.sh (RPS_PER_REPLICA).
+            - name: RPS_PER_REPLICA
+              value: "18"
+            # Suppress the JVM-CPU floor for the first ~3 cycles (~90s) while the
+            # JVM JIT-compiles — on EKS the container sees ~1 core so warmup CPU
+            # reads 60-95% and would falsely max out replicas. 0 locally.
+            - name: WARMUP_GRACE_CYCLES
+              value: "3"
+            # JVM-pressure floor: "on" = JVM-aware arm, "off" = RPS-only ablation.
+            - name: JVM_FLOOR
+              value: "on"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
