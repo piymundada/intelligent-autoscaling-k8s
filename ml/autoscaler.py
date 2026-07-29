@@ -1,5 +1,5 @@
 """
-JVM-Aware Predictive Autoscaler (Section 8.6.2)
+JVM-Aware Predictive Autoscaler (thesis §3.7.2)
 
 Control loop:
   1. Every CONTROL_INTERVAL seconds, fetch the latest metric window from Prometheus

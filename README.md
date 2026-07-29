@@ -338,7 +338,7 @@ JVM signals also drive the **JVM-pressure floor** in the live autoscaler
 ## SLA Definition
 
 - **p95 response time < 300 ms** under all load scenarios — confirmed against the
-  steady baseline via `ml/calibrate_capacity.py` before final runs (paper §8.7)
+  steady baseline via `ml/calibrate_capacity.py` before final runs (thesis §3.8)
 - Scrape / control-loop interval: **30 seconds**
 - Lookback window: **10 steps = 5 minutes**
 - Forecast horizon: **2 steps = 60 seconds** (covers pod cold-start + readiness

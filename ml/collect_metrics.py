@@ -2,7 +2,7 @@
 Collect experiment metrics from Prometheus and export to CSV.
 
 Run after each experiment scenario to capture the dataset for LSTM training.
-Queries all three metric layers defined in Section 8.4.1 of the thesis:
+Queries all three metric layers defined in §3.5.1 of the thesis:
   - Workload layer  : request rate, response time (max), error rate, throughput
   - Infrastructure  : CPU usage (%), replica count
   - JVM layer       : GC pause time/frequency, heap usage, thread count

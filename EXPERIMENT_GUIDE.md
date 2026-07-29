@@ -101,7 +101,7 @@ kubectl apply -f k8s/hpa.yaml
 Ensure port-forwards are running (app on :8080, Prometheus on :9090), then run each
 load scenario. Note the **UTC** start/end times — required for Prometheus collection.
 
-> The HPA uses **CPU + memory** (`k8s/hpa.yaml`), per proposal §8.6.1 and real-world
+> The HPA uses **CPU + memory** (`k8s/hpa.yaml`), per thesis §3.7.1 and real-world
 > practice. Because the JVM holds committed heap, memory stays high (~66% at idle)
 > and the HPA tends to scale up on memory and resist scaling in — a documented
 > *finding* showing why infra metrics poorly capture JVM workloads. See the comment
@@ -157,7 +157,7 @@ merged CSVs are used as LSTM training data in Step 6.
 
 Before modelling, derive `RPS_PER_REPLICA` from a steady baseline instead of
 guessing — it drives every predictive scaling decision. This also confirms the
-300 ms SLA target is realistic (paper §8.7 fixes the SLA after baseline profiling).
+300 ms SLA target is realistic (thesis §3.8 fixes the SLA after baseline profiling).
 
 ```bash
 PYTHONPATH=ml python ml/calibrate_capacity.py \

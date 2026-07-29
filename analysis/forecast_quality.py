@@ -1,5 +1,5 @@
 """
-Forecast quality analysis (paper §8.7, prediction quality).
+Forecast quality analysis (thesis §3.8, prediction quality).
 
 Reports LSTM test-set error in BOTH normalised units and denormalised RPS,
 and compares against two naive baselines computed on the same test windows:
@@ -7,8 +7,8 @@ and compares against two naive baselines computed on the same test windows:
   - Persistence: predict y(t+h) = last observed RPS in the lookback window
   - Moving average: predict y(t+h) = mean RPS over the lookback window
 
-The naive baselines justify the LSTM choice (paper §10.1 risk table names
-moving-average as the fallback predictor).
+The naive baselines justify the LSTM choice (thesis §3.6.2 specifies
+last-value persistence and moving-average as the comparison baselines).
 
 Usage:
     python3 analysis/forecast_quality.py \

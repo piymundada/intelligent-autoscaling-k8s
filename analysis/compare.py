@@ -1,6 +1,6 @@
 """
 Compare HPA baseline vs predictive autoscaler across all evaluation metrics
-defined in Section 8.7 of the thesis:
+defined in §3.8 of the thesis:
 
   1. Scaling responsiveness: scale-out/in event counts, max/avg replicas
   2. Performance & SLA: p95/p99 latency, error rate, SLA violations
