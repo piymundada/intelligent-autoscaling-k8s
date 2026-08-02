@@ -1,8 +1,5 @@
 # Intelligent Autoscaling for Cloud-Native Java Applications
 
-**MSc Computer Science Thesis**
-*Cost and Performance Optimization of Cloud-Native Java Applications Using Intelligent Autoscaling*
-
 ---
 
 ## Overview
