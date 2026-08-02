@@ -1,0 +1,48 @@
+<svg viewBox="0 0 640 560" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t221 d221">
+<title id="t221">Figure 2.2.1 the evolution of cloud autoscaling approaches</title>
+<desc id="d221">A vertical timeline of five stages, from manual scaling through rule-based threshold, analytical, and predictive machine-learning approaches, to JVM-aware predictive autoscaling. The axis runs from reactive at the top to proactive at the bottom; the final stage is this study's contribution.</desc>
+<rect x="0" y="0" width="640" height="560" fill="#ffffff"/>
+
+<!-- reactive to proactive axis -->
+<text x="70" y="26" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.5" fill="#8A897F">REACTIVE</text>
+<line x1="70" y1="40" x2="70" y2="500" stroke="#B0AFA6" stroke-width="2"/>
+<polygon points="70,513 62,500 78,500" fill="#B0AFA6"/>
+<text x="70" y="536" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.5" fill="#8A897F">PROACTIVE</text>
+
+<!-- Stage 1: manual -->
+<rect x="110" y="53" width="510" height="64" rx="8" fill="#F2F1EC" stroke="#A9A89F" stroke-width="1.5"/>
+<circle cx="70" cy="85" r="15" fill="#A9A89F"/>
+<text x="70" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">1</text>
+<text x="128" y="79" font-size="14.5" font-weight="600" fill="#1f1f1f">Manual scaling</text>
+<text x="128" y="100" font-size="12.5" fill="#5F5E5A">operator-driven, pre-cloud</text>
+
+<!-- Stage 2: rule-based / threshold (reactive, HPA) -->
+<rect x="110" y="143" width="510" height="64" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5"/>
+<circle cx="70" cy="175" r="15" fill="#E24B4A"/>
+<text x="70" y="180" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">2</text>
+<text x="128" y="169" font-size="14.5" font-weight="600" fill="#1f1f1f">Rule-based / threshold</text>
+<text x="128" y="190" font-size="12.5" fill="#5F5E5A">CPU and memory thresholds; the Kubernetes HPA</text>
+
+<!-- Stage 3: analytical / model-driven -->
+<rect x="110" y="233" width="510" height="64" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+<circle cx="70" cy="265" r="15" fill="#378ADD"/>
+<text x="70" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">3</text>
+<text x="128" y="259" font-size="14.5" font-weight="600" fill="#1f1f1f">Analytical and model-driven</text>
+<text x="128" y="280" font-size="12.5" fill="#5F5E5A">queuing theory, control loops, profiling</text>
+
+<!-- Stage 4: predictive / ML (proactive) -->
+<rect x="110" y="323" width="510" height="64" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1.5"/>
+<circle cx="70" cy="355" r="15" fill="#639922"/>
+<text x="70" y="360" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">4</text>
+<text x="128" y="349" font-size="14.5" font-weight="600" fill="#1f1f1f">Predictive / machine learning</text>
+<text x="128" y="370" font-size="12.5" fill="#5F5E5A">workload forecasting, LSTM, reinforcement learning</text>
+
+<!-- Stage 5: JVM-aware predictive (this study) -->
+<rect x="110" y="413" width="510" height="64" rx="8" fill="#E2EFCB" stroke="#4E7D14" stroke-width="2.5"/>
+<circle cx="70" cy="445" r="15" fill="#4E7D14"/>
+<text x="70" y="450" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">5</text>
+<text x="128" y="439" font-size="14.5" font-weight="700" fill="#1f1f1f">JVM-aware predictive</text>
+<text x="128" y="460" font-size="12.5" fill="#5F5E5A">workload forecast + JVM runtime signals</text>
+<rect x="503" y="434" width="102" height="22" rx="11" fill="#4E7D14"/>
+<text x="554" y="449" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="0.5" fill="#ffffff">THIS STUDY</text>
+</svg>

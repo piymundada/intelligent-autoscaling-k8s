@@ -11,9 +11,9 @@ Single source of truth for:
 APP_LABEL: str = "spring-workload-simulator"
 
 # SLA & experiment constants
-SLA_THRESHOLD_MS: int = 300        # p95 response-time SLA (Section 8.7).
+SLA_THRESHOLD_MS: int = 300        # p95 response-time SLA (thesis §3.8).
                                    # NOTE: confirm against steady baseline profiling
-                                   # before final runs (paper §8.7 fixes it post-baseline).
+                                   # before final runs (thesis §3.8 fixes it post-baseline).
 SCRAPE_INTERVAL_S: int = 30        # Prometheus scrape / control-loop interval
 WARMUP_MINUTES: int = 5            # Rows to drop at experiment start
 
@@ -36,9 +36,9 @@ RPS_PER_REPLICA: float = 35.0      # LOCAL / Minikube calibrated value. HARDWARE
                                    # so SLA is competitive, while scale-down in cooldown
                                    # delivers the cost win HPA can't (it stays pinned).
 
-# JVM-pressure scale-up floor (Section 8.6.2, the JVM-aware contribution)
+# JVM-pressure scale-up floor (thesis §3.7.2, the JVM-aware contribution)
 # The floor bumps replicas when JVM/CPU pressure is high even if predicted RPS is
-# low, so latency degradation from GC/heap pressure is caught (paper §8.4.1).
+# low, so latency degradation from GC/heap pressure is caught (thesis §3.5.1).
 # These are CONSERVATIVE defaults: they MUST be tuned per dataset with
 # ml/backtest_jvm_floor.py BEFORE live runs, otherwise the floor over-fires and
 # erases the cost benefit (observed in the previous experiment round).

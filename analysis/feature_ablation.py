@@ -12,7 +12,7 @@ Two analyses:
 2. Lead-lag correlation: on the merged baseline CSVs, correlates each feature
    at time t with p95 latency at t+k (k = 0..6 steps of 30 s). A feature whose
    correlation peaks at k > 0 is a LEADING indicator of latency degradation,
-   the core JVM-awareness claim (paper §8.4.1).
+   the core JVM-awareness claim (thesis §5.10).
 
 Usage:
     python3 analysis/feature_ablation.py \

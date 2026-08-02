@@ -13,7 +13,7 @@ Method:
   - Report a conservative percentile (default p75) as the sustainable RPS/replica.
     Using a percentile (not the max) leaves headroom and ignores lucky outliers.
 
-It also prints the p95 latency distribution so the SLA target (§8.7) can be
+It also prints the p95 latency distribution so the SLA target (thesis §3.8) can be
 confirmed against what the system actually delivers under normal load.
 
 Usage:

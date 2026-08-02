@@ -2,7 +2,7 @@
 # This is the REACTIVE baseline the predictive autoscaler is compared against.
 # Configuration is kept fixed across all baseline experiments.
 #
-# CPU + memory matches real-world practice and the proposal (§8.6.1). Note that
+# CPU + memory matches real-world practice and the thesis baseline (§3.7.1). Note that
 # the JVM holds its committed heap (-Xms256m), so memory utilisation stays high
 # and does not fall back when load drops. This causes the HPA to scale up on
 # memory and resist scaling in — pinning replicas and inflating cost. That
